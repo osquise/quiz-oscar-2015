@@ -26,11 +26,6 @@ var sequelize = new Sequelize(DB_name, user, pwd,
     }
 );
 
-// Usar BBDD SQLite o Postgres
-/*var sequelize = new Sequelize(null, null, null,
-    { dialect:  "sqlite", storage:  "quiz.sqlite"}
-);*/
-
 // Importar definicion de la tabla Quiz
 var Quiz = sequelize.import(path.join(__dirname,'quiz'));
 
