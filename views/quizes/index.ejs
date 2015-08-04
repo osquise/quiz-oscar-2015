@@ -2,6 +2,7 @@
     <% var i; for (i=0; i < quizes.length; i++) { %>
     <tr>
         <td><a href="/quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+        <td><a><%= quizes[i].tema %></a></td>
         <td><a href="/quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
         <td>
             <form method="post" action="/quizes/<%= quizes[i].id %>?_method=delete">
@@ -12,5 +13,5 @@
         </td>
     </tr>
     <% } %>
+    <a href="/quizes/new"><button type="button">Crear pregunta</button></a>
 </table>
-<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
