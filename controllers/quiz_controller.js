@@ -22,10 +22,21 @@ exports.load = function(req, res, next, quizId)
 // GET /quizes
 exports.index = function(req, res)
 {
-    models.Quiz.findAll().then(function(quizes)
-        {
-            res.render('quizes/index', {quizes: quizes, errors: []});
-        }
+    var search = req.query.search? req.query.search: '';
+
+    //sustituimos espacios por %, haciendo trim previamente
+    var find = ' ';
+    var re = new RegExp(find, 'g');
+    var searchRep = ('%' + search.trim().replace(re, '%') + '%');
+
+    models.Quiz.findAll({
+        where: ["pregunta like ?", searchRep],
+        order: [['pregunta', 'ASC']]
+    }).then(
+            function(quizes)
+            {
+                res.render('quizes/index', {quizes: quizes, errors: []});
+            }
     ).catch(function(error){next(error)});
 };
 
