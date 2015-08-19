@@ -28,6 +28,26 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// expiración de la sesion
+app.use(function(req, res, next) {
+        if (req.session.user) {
+                if (!req.session.timestamp) {
+                        req.session.timestamp=(new Date()).getTime();
+                    } else {
+                        var diferencia = (new Date()).getTime() - req.session.timestamp;
+                        if (diferencia > 119999) { //2 minutos
+                                delete req.session.timestamp;
+                                delete req.session.user;
+                                console.log("Ha terminado la sesión por AUTO-logout");
+                            } else {
+                                req.session.timestamp = (new Date()).getTime();
+                                res.locals.session = req.session;
+                            }
+                    }
+            }
+        next();
+    });
+
 // Helpers dinamicos:
 app.use(function(req, res, next) {
 
